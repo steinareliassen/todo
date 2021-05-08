@@ -22,4 +22,23 @@ class TodoappApplicationTests {
 		assert result.equals("[{\"itemName\":\"name\",\"categories\":[\"category\"]}]");
 	}
 
+	@Test
+	public void getLists() {
+		String result = restTemplate.getForObject("http://localhost:" + port + "/lists", String.class);
+		System.out.println(result);
+		assert result.equals("{\"123\":\"exampleList1\",\"124\":\"exampleList2\"}");
+	}
+
+	@Test
+	public void createList() {
+		String result = restTemplate.postForObject("http://localhost:" + port + "/list", "myNewList" ,String.class);
+		System.out.println(result);
+		assert result.equals("123");
+	}
+
+	@Test
+	public void deleteList() {
+		restTemplate.delete("http://localhost:" + port + "/list/listId", "myNewList");
+	}
+
 }
