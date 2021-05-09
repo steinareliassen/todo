@@ -4,17 +4,19 @@ import org.demo.todo.todoapp.converters.StringListConverter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
-public class TodoItem implements Comparable<TodoItem>{
+public class TodoItem implements Comparable<TodoItem> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="id")
+    @Column(name = "id")
     private int id;
 
-    @Column(name="name")
+    @Column(name = "name", unique = true)
     String name;
 
     @Column(name = "completed")
@@ -27,13 +29,16 @@ public class TodoItem implements Comparable<TodoItem>{
     public TodoItem() {
         // Default constructor required for JPA
     }
-    public TodoItem(String name) {
+
+    public TodoItem(String name, String ... categories) {
         this.name = name;
+        this.categories = Arrays.asList(categories);
     }
 
     public void setId(int id) {
         this.id = id;
     }
+
     public int getId() {
         return id;
     }
@@ -46,9 +51,17 @@ public class TodoItem implements Comparable<TodoItem>{
         return categories;
     }
 
+    public boolean getCompleted() {
+        return completed != null && completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
     @Override
     public int compareTo(TodoItem o) {
-        return id-o.id;
+        return id - o.id;
     }
 
     @Override

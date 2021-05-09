@@ -25,10 +25,10 @@ public class TodoList {
     @Column(name="id")
     private int id;
 
-    @Column(name="name")
+    @Column(name="name", unique = true)
     private String name;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<TodoItem> todoItems = new ArrayList<>();
 
     public int getId() {
@@ -41,6 +41,14 @@ public class TodoList {
 
     public List<TodoItem> getTodoItems() {
         return todoItems;
+    }
+
+    public void removeTodoItems() {
+        todoItems = new ArrayList<>();
+    }
+
+    public void removeTodoItem(TodoItem todoItem) {
+        todoItems.remove(todoItem);
     }
 
     public void addTodoItem(TodoItem todoItem) {
