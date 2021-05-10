@@ -8,7 +8,6 @@ import org.demo.todo.todoapp.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +20,7 @@ public class TodoDAL {
     @Autowired
     TodoRepository todoRepository;
 
-    public int createList(@RequestBody String listName) {
+    public int createList(String listName) {
         try {
             return listRepository.save(new TodoList(listName)).getId();
         } catch (DataIntegrityViolationException e) {
@@ -29,7 +28,7 @@ public class TodoDAL {
         }
     }
 
-    public void deleteList(@PathVariable("listId") int listId) {
+    public void deleteList(int listId) {
         TodoList todoList = listRepository.findById(listId)
                 .orElseThrow(()->new IllegalStateException("No list with that id exists"));
         List<TodoItem> todoItems = todoList.getTodoItems();
